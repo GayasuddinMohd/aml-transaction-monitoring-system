@@ -17,6 +17,36 @@ import plotly.graph_objects as go
 
 DB_PATH = "data/aml_transactions.db"
 
+# ── Auto-setup: generate data if DB doesn't exist ────────────────────────────
+def setup_database():
+    os.makedirs("data", exist_ok=True)
+    needs_setup = False
+    if not os.path.exists(DB_PATH):
+        needs_setup = True
+    else:
+        try:
+            conn = sqlite3.connect(DB_PATH)
+            count = conn.execute("SELECT COUNT(*) FROM transactions").fetchone()[0]
+            conn.close()
+            if count == 0:
+                needs_setup = True
+        except Exception:
+            needs_setup = True
+    if needs_setup:
+        with st.spinner("🔧 First run: generating data... (~15 seconds)"):
+            try:
+                from src.data_generator import main as gen_main
+                from src.rules_engine import main as rules_main
+                gen_main()
+                rules_main()
+            except Exception as e:
+                st.error(f"Setup failed: {e}")
+                st.stop()
+        st.success("✅ Database ready!")
+        st.rerun()
+
+setup_database()
+
 # ── Theming ───────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="AML Transaction Monitoring System",
