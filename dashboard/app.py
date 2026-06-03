@@ -201,7 +201,7 @@ if page == "📊 Executive Dashboard":
         """)
         st.markdown("##### 🔴 Top 10 Riskiest Customers")
         st.dataframe(
-            df_risk.style.background_gradient(subset=["max_score"], cmap="Reds"),
+            df_risk,
             use_container_width=True, height=270
         )
 
