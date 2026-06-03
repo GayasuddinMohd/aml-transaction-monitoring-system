@@ -1,0 +1,7 @@
+typology,rule_id,alert_count,avg_risk_score,critical_count
+pep_cash_transaction,AML-007,47,100.0,47
+smurfing,AML-002,19,91.84210526315789,15
+round_tripping,AML-004,128,89.3359375,128
+layering,AML-003,60,78.1875,18
+high_risk_jurisdiction,AML-006,27,72.33518518518518,2
+velocity_spike,AML-005,75,60.477333333333334,1
